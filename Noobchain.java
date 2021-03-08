@@ -115,11 +115,11 @@ class Noobchain {
 				msg = sc.nextLine();
 				if (counter == 0) {
 					blockchain.add(new Block(msg, "0"));
-					System.out.println("Trying to mine block " + counter + 1 + "...");
+					System.out.println("Trying to mine block " + (counter + 1) + "...");
 					blockchain.get(counter).mineBlock(difficulty);
 				} else {
 					blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
-					System.out.println("Trying to mine block " + counter + 1 + "...");
+					System.out.println("Trying to mine block " + (counter + 1) + "...");
 					blockchain.get(counter).mineBlock(difficulty);
 				}
 				System.out.println("Blockchain is Valid: " + isChainValid());
