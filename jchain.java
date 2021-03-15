@@ -75,7 +75,7 @@ class jchain {
 	private static TextField tf1;
 	private static Button addBlock;
 	private static Button viewBlocks;
-	private static TextField statusBox;
+	private static TextArea statusBox;
 
 	public static Boolean isChainValid() {
 		Block currentBlock;
@@ -136,7 +136,8 @@ class jchain {
 				blockchain.get(counter).mineBlock(difficulty);
 				System.out.println("Blockchain is Valid: " + isChainValid());
 				statusBox.setText("Trying to mine block " + (counter + 1) + "...");
-				// statusBox.setText("Blockchain is Valid: " + isChainValid());
+				statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
+				statusBox.append("\nBlockchain is Valid: " + isChainValid());
 				counter += 1;
 			}
 			tf1.setText("Enter Data");
@@ -148,9 +149,11 @@ class jchain {
 			if (e.getSource() == viewBlocks) {
 				if (blockchain.isEmpty() == true) {
 					System.out.println("\nBlockchain empty!\n");
+					statusBox.setText("Blockchain empty!");
 				} else {
 					System.out.println("\nThe block chain:");
 					System.out.println("[");
+					statusBox.setText("The block chain:" + "\n[");
 					for (int i = 0; i < blockchain.size(); i++) {
 						System.out.println("\t{");
 						System.out.println("\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
@@ -159,8 +162,18 @@ class jchain {
 						System.out.println("\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
 						System.out.println("\t  " + "'nonce': " + blockchain.get(i).getNonce());
 						System.out.println("\t},");
+
+						statusBox.append("\n\t{");
+						statusBox.append("\n\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
+						statusBox.append("\n\t  " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
+						statusBox.append("\n\t  " + "'data': " + "'" + blockchain.get(i).getData() + "',");
+						statusBox.append("\n\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
+						statusBox.append("\n\t  " + "'nonce': " + blockchain.get(i).getNonce());
+						statusBox.append("\n\t},");
+
 					}
 					System.out.println("]");
+					statusBox.append("\n]");
 				}
 			}
 		}
@@ -181,15 +194,15 @@ class jchain {
 		viewBlocks.setBounds(113, 110, 60, 30);
 		viewBlocks.addActionListener(new viewBlockchain());
 
-		statusBox = new TextField("");
-		statusBox.setBounds(350, 30, 420, 143);
+		statusBox = new TextArea("");
+		statusBox.setBounds(350, 30, 800, 300);
 
 		frame.add(statusBox);
 		frame.add(tf1);
 		frame.add(addBlock);
 		frame.add(viewBlocks);
-		frame.setSize(800, 800);
-		// frame.getContentPane().setBackground(Color.decode("#ffffff"));
+		frame.setSize(1200, 500);
+		frame.getContentPane().setBackground(Color.decode("#777777"));
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
