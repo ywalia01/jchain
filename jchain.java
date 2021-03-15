@@ -104,6 +104,23 @@ class jchain {
 		return true;
 	}
 
+
+	public static class insertMouseAction extends MouseAdapter{
+		insertMouseAction(){
+		tf1.addMouseListener(new MouseAdapter(){
+			public void mousePressed(MouseEvent e){
+
+				if(tf1.getText().equals("Enter Data")){
+					tf1.setText("");
+				}
+	
+				else if(tf1.getText().trim().equals("")){
+					tf1.setText("Enter Data");
+			}
+			}
+		});
+		}
+	}
 	public static class insertAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String msg = tf1.getText();
@@ -118,8 +135,8 @@ class jchain {
 				System.out.println("Blockchain is Valid: " + isChainValid());
 				counter += 1;
 			}
-			tf1.setText("");
-		}
+			tf1.setText("Enter Data");
+	
 	}
 
 	public static class viewBlockchain implements ActionListener {
@@ -148,8 +165,9 @@ class jchain {
 	public static void main(String[] args) {
 
 		frame = new JFrame("JChain");
-		tf1 = new TextField();
+		tf1 = new TextField("Enter Data");
 		tf1.setBounds(150, 150, 100, 70);
+		tf1.addMouseListener(new insertMouseAction());
 
 		addBlock = new Button("Create");
 		addBlock.setBounds(160, 250, 70, 40);
@@ -167,4 +185,5 @@ class jchain {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
+}
 }
