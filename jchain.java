@@ -104,23 +104,23 @@ class jchain {
 		return true;
 	}
 
+	public static class insertMouseAction extends MouseAdapter {
+		insertMouseAction() {
+			tf1.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
 
-	public static class insertMouseAction extends MouseAdapter{
-		insertMouseAction(){
-		tf1.addMouseListener(new MouseAdapter(){
-			public void mousePressed(MouseEvent e){
+					if (tf1.getText().equals("Enter Data")) {
+						tf1.setText("");
+					}
 
-				if(tf1.getText().equals("Enter Data")){
-					tf1.setText("");
+					else if (tf1.getText().trim().equals("")) {
+						tf1.setText("Enter Data");
+					}
 				}
-	
-				else if(tf1.getText().trim().equals("")){
-					tf1.setText("Enter Data");
-			}
-			}
-		});
+			});
 		}
 	}
+
 	public static class insertAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String msg = tf1.getText();
@@ -136,7 +136,7 @@ class jchain {
 				counter += 1;
 			}
 			tf1.setText("Enter Data");
-	
+		}
 	}
 
 	public static class viewBlockchain implements ActionListener {
@@ -185,5 +185,4 @@ class jchain {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
-}
 }
