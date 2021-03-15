@@ -1,5 +1,8 @@
 import java.util.*;
 import java.security.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 class StringUtil {
 	public static String applySha256(String input) {
@@ -23,8 +26,8 @@ class StringUtil {
 class Block {
 	public String hash;
 	public String previousHash;
-	private String data; // A simple message.
-	private long timeStamp; // No of milliseconds since 1/1/1970.
+	private String data;
+	private long timeStamp;
 	private int nonce;
 
 	// Block Constructor
@@ -32,7 +35,7 @@ class Block {
 		this.data = data;
 		this.previousHash = previousHash;
 		this.timeStamp = new Date().getTime();
-		this.hash = calculateHash(); // Making sure we do this after we set the other values.
+		this.hash = calculateHash();
 	}
 
 	public String getData() {
@@ -64,10 +67,14 @@ class Block {
 	}
 }
 
-class Noobchain {
-
-	public static ArrayList<Block> blockchain = new ArrayList<Block>();
-	public static int difficulty = 4;
+class jchain {
+	private static ArrayList<Block> blockchain = new ArrayList<Block>();
+	private static int counter = 0;
+	private static int difficulty = 4;
+	private static JFrame frame;
+	private static TextField tf1;
+	private static Button addBlock;
+	private static Button viewBlocks;
 
 	public static Boolean isChainValid() {
 		Block currentBlock;
@@ -83,12 +90,12 @@ class Noobchain {
 				System.out.println("Current Hashes not equal");
 				return false;
 			}
-			// compare previous hash and registered previous hash
+			// Compare previous hash and registered previous hash
 			if (!previousBlock.hash.equals(currentBlock.previousHash)) {
 				System.out.println("Previous Hashes not equal");
 				return false;
 			}
-			// check if hash is solved
+			// Check if hash is solved
 			if (!currentBlock.hash.substring(0, difficulty).equals(hashTarget)) {
 				System.out.println("This block hasn't been mined");
 				return false;
@@ -97,62 +104,67 @@ class Noobchain {
 		return true;
 	}
 
-	public static void main(String[] args) {
-
-		Scanner sc = new Scanner(System.in);
-		int ch, counter = 0;
-		String msg;
-		while (true) {
-			System.out.println("\n******** Blockchain in java ********");
-			System.out.println("1. Create Block\n2. View Blockchain\n3. Exit");
-			System.out.println("Enter your choice: ");
-			ch = sc.nextInt();
-			sc.nextLine();
-
-			switch (ch) {
-			case 1:
-				System.out.print("\nEnter message: ");
-				msg = sc.nextLine();
+	public static class insertAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String msg = tf1.getText();
+			if (e.getSource() == addBlock) {
 				if (counter == 0) {
 					blockchain.add(new Block(msg, "0"));
-					System.out.println("Trying to mine block " + (counter + 1) + "...");
-					blockchain.get(counter).mineBlock(difficulty);
 				} else {
 					blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
-					System.out.println("Trying to mine block " + (counter + 1) + "...");
-					blockchain.get(counter).mineBlock(difficulty);
 				}
+				System.out.println("\nTrying to mine block " + (counter + 1) + "...");
+				blockchain.get(counter).mineBlock(difficulty);
 				System.out.println("Blockchain is Valid: " + isChainValid());
 				counter += 1;
-				break;
-			case 2:
+			}
+			tf1.setText("");
+		}
+	}
+
+	public static class viewBlockchain implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == viewBlocks) {
 				if (blockchain.isEmpty() == true) {
-					System.out.println("\nBlockchain empty!");
+					System.out.println("\nBlockchain empty!\n");
 				} else {
-					viewBlockchain();
+					System.out.println("\nThe block chain:");
+					System.out.println("[");
+					for (int i = 0; i < blockchain.size(); i++) {
+						System.out.println("\t{");
+						System.out.println("\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
+						System.out.println("\t  " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
+						System.out.println("\t  " + "'data': " + "'" + blockchain.get(i).getData() + "',");
+						System.out.println("\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
+						System.out.println("\t  " + "'nonce': " + blockchain.get(i).getNonce());
+						System.out.println("\t},");
+					}
+					System.out.println("]");
 				}
-				break;
-			case 3:
-				System.exit(0);
-				break;
-			default:
-				System.out.println("\nError! Invalid\n");
 			}
 		}
 	}
 
-	static void viewBlockchain() {
-		System.out.println("\nThe block chain:");
-		System.out.println("[");
-		for (int i = 0; i < blockchain.size(); i++) {
-			System.out.println("\t{");
-			System.out.println("\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
-			System.out.println("\t  " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
-			System.out.println("\t  " + "'data': " + "'" + blockchain.get(i).getData() + "',");
-			System.out.println("\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
-			System.out.println("\t  " + "'nonce': " + blockchain.get(i).getNonce());
-			System.out.println("\t},");
-		}
-		System.out.println("]");
+	public static void main(String[] args) {
+
+		frame = new JFrame("JChain");
+		tf1 = new TextField();
+		tf1.setBounds(150, 150, 100, 70);
+
+		addBlock = new Button("Create");
+		addBlock.setBounds(160, 250, 70, 40);
+		addBlock.addActionListener(new insertAction());
+
+		viewBlocks = new Button("View");
+		viewBlocks.setBounds(240, 250, 60, 40);
+		viewBlocks.addActionListener(new viewBlockchain());
+
+		frame.add(tf1);
+		frame.add(addBlock);
+		frame.add(viewBlocks);
+		frame.setSize(800, 800);
+		frame.setLayout(null);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 }
