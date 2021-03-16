@@ -147,6 +147,7 @@ class jchain {
 
 					JButton blockButton = new JButton(Integer.toString(counter + 1));
 					blockButton.setBounds(temp, 350, 50, 50);
+					blockButton.setForeground(Color.RED);
 					frame.add(blockButton);
 
 					blockButton.addActionListener(new ActionListener() {
@@ -220,7 +221,7 @@ class jchain {
 		frame.add(addBlock);
 		frame.add(viewBlocks);
 		frame.setSize(1040, 600);
-		frame.getContentPane().setBackground(Color.decode("#1e1e1e"));
+		frame.getContentPane().setBackground(Color.decode("#28527a"));
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
