@@ -69,7 +69,6 @@ class Block {
 
 class jchain {
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
-	//private static ArrayList<JButton> BlockButtons = new ArrayList<JButton>();
 	private static int counter = 0;
 	private static int difficulty = 4;
 	private static JFrame frame;
@@ -139,24 +138,34 @@ class jchain {
 					} else {
 						blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
 					}
+					frame.setVisible(false);
+					frame.setVisible(true);
 					statusBox.setText("Trying to mine block " + (counter + 1) + "...");
 					blockchain.get(counter).mineBlock(difficulty);
 					statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
 					statusBox.append("\nBlockchain is Valid: " + isChainValid());
-					JButton number = new JButton(Integer.toString(counter + 1));
-					number.setBounds(temp, 350, 50, 50);
-					frame.add(number);
-					number.addActionListener(new ActionListener(){  
-						public void actionPerformed(ActionEvent e){  
-								int block_number = Integer.parseInt(number.getText());
-								statusBox.setText("Data in the block: " + blockchain.get(block_number-1).getData());
-								statusBox.append("\nHash code of the block: " + blockchain.get(block_number-1).hash);
-							}  
-						});  
 
-					// BlockButtons.add(new JButton(Integer.toString(counter + 1)));
-					// BlockButtons.get(BlockButtons.size() - 1).setBounds(temp, 350, 50, 50);
-					// frame.add(BlockButtons.get(BlockButtons.size() - 1));
+					JButton blockButton = new JButton(Integer.toString(counter + 1));
+					blockButton.setBounds(temp, 350, 50, 50);
+					frame.add(blockButton);
+
+					blockButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int block_number = Integer.parseInt(blockButton.getText());
+							statusBox.setText("Block " + block_number + ":");
+							statusBox.append("\n    {");
+							statusBox.append(
+									"\n      " + "'hash': " + "'" + blockchain.get(block_number - 1).hash + "',");
+							statusBox.append("\n      " + "'previousHash': " + "'"
+									+ blockchain.get(block_number - 1).previousHash + "',");
+							statusBox.append(
+									"\n      " + "'data': " + "'" + blockchain.get(block_number - 1).getData() + "',");
+							statusBox.append("\n      " + "'timeStamp': "
+									+ blockchain.get(block_number - 1).getTimeStamp() + ",");
+							statusBox.append("\n      " + "'nonce': " + blockchain.get(block_number - 1).getNonce());
+							statusBox.append("\n    },");
+						}
+					});
 					temp += 55;
 					counter += 1;
 				}
@@ -179,7 +188,7 @@ class jchain {
 						statusBox.append("\n      " + "'data': " + "'" + blockchain.get(i).getData() + "',");
 						statusBox.append("\n      " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
 						statusBox.append("\n      " + "'nonce': " + blockchain.get(i).getNonce());
-						statusBox.append("\n    },");
+						statusBox.append("\n    }");
 					}
 					statusBox.append("\n]");
 				}
@@ -194,27 +203,21 @@ class jchain {
 		tf1.addMouseListener(new insertMouseAction());
 
 		addBlock = new Button("Create");
-		addBlock.setBounds(36, 110, 60, 25);
+		addBlock.setBounds(33, 110, 70, 30);
 		addBlock.addActionListener(new insertAction());
 
 		viewBlocks = new Button("View");
-		viewBlocks.setBounds(113, 110, 60, 25);
+		viewBlocks.setBounds(113, 110, 60, 30);
 		viewBlocks.addActionListener(new viewBlockchain());
 
-		addBlock.setBackground(Color.WHITE);
-   	    addBlock.setForeground(Color.BLACK);
-
-		viewBlocks.setBackground(Color.WHITE);
-		viewBlocks.setForeground(Color.BLACK);
-
 		statusBox = new TextArea("");
-		statusBox.setBounds(350, 30, 800, 300);
+		statusBox.setBounds(350, 60, 650, 260);
 
 		frame.add(statusBox);
 		frame.add(tf1);
 		frame.add(addBlock);
 		frame.add(viewBlocks);
-		frame.setSize(1200, 500);
+		frame.setSize(1040, 600);
 		frame.getContentPane().setBackground(Color.decode("#1e1e1e"));
 		frame.setLayout(null);
 		frame.setVisible(true);
