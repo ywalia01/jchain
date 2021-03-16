@@ -163,7 +163,7 @@ class jchain {
 							statusBox.append("\n      " + "'timeStamp': "
 									+ blockchain.get(block_number - 1).getTimeStamp() + ",");
 							statusBox.append("\n      " + "'nonce': " + blockchain.get(block_number - 1).getNonce());
-							statusBox.append("\n    },");
+							statusBox.append("\n    }");
 						}
 					});
 					temp += 55;
@@ -211,7 +211,9 @@ class jchain {
 		viewBlocks.addActionListener(new viewBlockchain());
 
 		statusBox = new TextArea("");
-		statusBox.setBounds(350, 60, 650, 260);
+		statusBox.setBounds(350, 65, 650, 260);
+		statusBox.setEditable(false);
+		statusBox.setText("Welcome to JChain: A Blockchain Simulation");
 
 		frame.add(statusBox);
 		frame.add(tf1);
