@@ -63,12 +63,13 @@ class Block {
 			nonce++;
 			hash = calculateHash();
 		}
-		System.out.println("Block Mined! -> " + hash);
+		// System.out.println("Block Mined! -> " + hash);
 	}
 }
 
 class jchain {
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
+	private static ArrayList<JButton> BlockButtons = new ArrayList<JButton>();
 	private static int counter = 0;
 	private static int difficulty = 4;
 	private static JFrame frame;
@@ -76,6 +77,7 @@ class jchain {
 	private static Button addBlock;
 	private static Button viewBlocks;
 	private static TextArea statusBox;
+	private static int temp = 40;
 
 	public static Boolean isChainValid() {
 		Block currentBlock;
@@ -88,12 +90,12 @@ class jchain {
 			previousBlock = blockchain.get(i - 1);
 			// Compare registered hash and calculated hash:
 			if (!currentBlock.hash.equals(currentBlock.calculateHash())) {
-				System.out.println("Current Hashes not equal");
+				System.out.println("Current hashes not equal");
 				return false;
 			}
 			// Compare previous hash and registered previous hash
 			if (!previousBlock.hash.equals(currentBlock.previousHash)) {
-				System.out.println("Previous Hashes not equal");
+				System.out.println("Previous hashes not equal");
 				return false;
 			}
 			// Check if hash is solved
@@ -128,20 +130,24 @@ class jchain {
 			if (e.getSource() == addBlock) {
 				statusBox.setText("");
 				if (msg.equals("") || msg.equals("Enter Data")) {
-					statusBox.setText("Please enter some data first!");
+					statusBox.setText("Please enter some data first");
 					return;
 				} else {
 					if (counter == 0) {
 						blockchain.add(new Block(msg, "0"));
+
 					} else {
 						blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
 					}
-					System.out.println("\nTrying to mine block " + (counter + 1) + "...");
 					statusBox.setText("Trying to mine block " + (counter + 1) + "...");
 					blockchain.get(counter).mineBlock(difficulty);
 					statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
-					System.out.println("Blockchain is Valid: " + isChainValid());
 					statusBox.append("\nBlockchain is Valid: " + isChainValid());
+
+					BlockButtons.add(new JButton(Integer.toString(counter + 1)));
+					BlockButtons.get(BlockButtons.size() - 1).setBounds(temp, 350, 50, 50);
+					frame.add(BlockButtons.get(BlockButtons.size() - 1));
+					temp += 50;
 					counter += 1;
 				}
 			}
@@ -153,31 +159,18 @@ class jchain {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == viewBlocks) {
 				if (blockchain.isEmpty() == true) {
-					System.out.println("\nBlockchain empty!\n");
 					statusBox.setText("Blockchain empty!");
 				} else {
-					System.out.println("\nThe block chain:");
-					System.out.println("[");
 					statusBox.setText("The block chain:" + "\n[");
 					for (int i = 0; i < blockchain.size(); i++) {
-						System.out.println("\t{");
-						System.out.println("\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
-						System.out.println("\t  " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
-						System.out.println("\t  " + "'data': " + "'" + blockchain.get(i).getData() + "',");
-						System.out.println("\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
-						System.out.println("\t  " + "'nonce': " + blockchain.get(i).getNonce());
-						System.out.println("\t},");
-
-						statusBox.append("\n   {");
-						statusBox.append("\n     " + "'hash': " + "'" + blockchain.get(i).hash + "',");
-						statusBox.append("\n     " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
-						statusBox.append("\n     " + "'data': " + "'" + blockchain.get(i).getData() + "',");
-						statusBox.append("\n     " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
-						statusBox.append("\n     " + "'nonce': " + blockchain.get(i).getNonce());
-						statusBox.append("\n   },");
-
+						statusBox.append("\n    {");
+						statusBox.append("\n      " + "'hash': " + "'" + blockchain.get(i).hash + "',");
+						statusBox.append("\n      " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
+						statusBox.append("\n      " + "'data': " + "'" + blockchain.get(i).getData() + "',");
+						statusBox.append("\n      " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
+						statusBox.append("\n      " + "'nonce': " + blockchain.get(i).getNonce());
+						statusBox.append("\n    },");
 					}
-					System.out.println("]");
 					statusBox.append("\n]");
 				}
 			}
@@ -185,7 +178,6 @@ class jchain {
 	}
 
 	public static void main(String[] args) {
-
 		frame = new JFrame("JChain");
 		tf1 = new TextField("Enter Data");
 		tf1.setBounds(40, 70, 280, 30);
