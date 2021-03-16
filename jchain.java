@@ -127,18 +127,23 @@ class jchain {
 			String msg = tf1.getText();
 			if (e.getSource() == addBlock) {
 				statusBox.setText("");
-				if (counter == 0) {
-					blockchain.add(new Block(msg, "0"));
+				if (msg.equals("") || msg.equals("Enter Data")) {
+					statusBox.setText("Please enter some data first!");
+					return;
 				} else {
-					blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
+					if (counter == 0) {
+						blockchain.add(new Block(msg, "0"));
+					} else {
+						blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
+					}
+					System.out.println("\nTrying to mine block " + (counter + 1) + "...");
+					blockchain.get(counter).mineBlock(difficulty);
+					System.out.println("Blockchain is Valid: " + isChainValid());
+					statusBox.setText("Trying to mine block " + (counter + 1) + "...");
+					statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
+					statusBox.append("\nBlockchain is Valid: " + isChainValid());
+					counter += 1;
 				}
-				System.out.println("\nTrying to mine block " + (counter + 1) + "...");
-				blockchain.get(counter).mineBlock(difficulty);
-				System.out.println("Blockchain is Valid: " + isChainValid());
-				statusBox.setText("Trying to mine block " + (counter + 1) + "...");
-				statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
-				statusBox.append("\nBlockchain is Valid: " + isChainValid());
-				counter += 1;
 			}
 			tf1.setText("Enter Data");
 		}
