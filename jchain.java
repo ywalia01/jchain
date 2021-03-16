@@ -137,10 +137,10 @@ class jchain {
 						blockchain.add(new Block(msg, blockchain.get(blockchain.size() - 1).hash));
 					}
 					System.out.println("\nTrying to mine block " + (counter + 1) + "...");
-					blockchain.get(counter).mineBlock(difficulty);
-					System.out.println("Blockchain is Valid: " + isChainValid());
 					statusBox.setText("Trying to mine block " + (counter + 1) + "...");
+					blockchain.get(counter).mineBlock(difficulty);
 					statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
+					System.out.println("Blockchain is Valid: " + isChainValid());
 					statusBox.append("\nBlockchain is Valid: " + isChainValid());
 					counter += 1;
 				}
@@ -168,13 +168,13 @@ class jchain {
 						System.out.println("\t  " + "'nonce': " + blockchain.get(i).getNonce());
 						System.out.println("\t},");
 
-						statusBox.append("\n\t{");
-						statusBox.append("\n\t  " + "'hash': " + "'" + blockchain.get(i).hash + "',");
-						statusBox.append("\n\t  " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
-						statusBox.append("\n\t  " + "'data': " + "'" + blockchain.get(i).getData() + "',");
-						statusBox.append("\n\t  " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
-						statusBox.append("\n\t  " + "'nonce': " + blockchain.get(i).getNonce());
-						statusBox.append("\n\t},");
+						statusBox.append("\n   {");
+						statusBox.append("\n     " + "'hash': " + "'" + blockchain.get(i).hash + "',");
+						statusBox.append("\n     " + "'previousHash': " + "'" + blockchain.get(i).previousHash + "',");
+						statusBox.append("\n     " + "'data': " + "'" + blockchain.get(i).getData() + "',");
+						statusBox.append("\n     " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
+						statusBox.append("\n     " + "'nonce': " + blockchain.get(i).getNonce());
+						statusBox.append("\n   },");
 
 					}
 					System.out.println("]");
