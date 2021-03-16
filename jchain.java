@@ -199,7 +199,7 @@ class jchain {
 		frame.add(addBlock);
 		frame.add(viewBlocks);
 		frame.setSize(1200, 500);
-		frame.getContentPane().setBackground(Color.decode("#777777"));
+		frame.getContentPane().setBackground(Color.decode("#1e1e1e"));
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
