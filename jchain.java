@@ -69,7 +69,7 @@ class Block {
 
 class jchain {
 	private static ArrayList<Block> blockchain = new ArrayList<Block>();
-	private static ArrayList<JButton> BlockButtons = new ArrayList<JButton>();
+	//private static ArrayList<JButton> BlockButtons = new ArrayList<JButton>();
 	private static int counter = 0;
 	private static int difficulty = 4;
 	private static JFrame frame;
@@ -143,11 +143,21 @@ class jchain {
 					blockchain.get(counter).mineBlock(difficulty);
 					statusBox.append("\nBlock Mined! -> " + blockchain.get(blockchain.size() - 1).hash);
 					statusBox.append("\nBlockchain is Valid: " + isChainValid());
+					JButton number = new JButton(Integer.toString(counter + 1));
+					number.setBounds(temp, 350, 50, 50);
+					frame.add(number);
+					number.addActionListener(new ActionListener(){  
+						public void actionPerformed(ActionEvent e){  
+								int block_number = Integer.parseInt(number.getText());
+								statusBox.setText("Data in the block: " + blockchain.get(block_number-1).getData());
+								statusBox.append("\nHash code of the block: " + blockchain.get(block_number-1).hash);
+							}  
+						});  
 
-					BlockButtons.add(new JButton(Integer.toString(counter + 1)));
-					BlockButtons.get(BlockButtons.size() - 1).setBounds(temp, 350, 50, 50);
-					frame.add(BlockButtons.get(BlockButtons.size() - 1));
-					temp += 50;
+					// BlockButtons.add(new JButton(Integer.toString(counter + 1)));
+					// BlockButtons.get(BlockButtons.size() - 1).setBounds(temp, 350, 50, 50);
+					// frame.add(BlockButtons.get(BlockButtons.size() - 1));
+					temp += 55;
 					counter += 1;
 				}
 			}
@@ -184,12 +194,18 @@ class jchain {
 		tf1.addMouseListener(new insertMouseAction());
 
 		addBlock = new Button("Create");
-		addBlock.setBounds(33, 110, 70, 30);
+		addBlock.setBounds(36, 110, 60, 25);
 		addBlock.addActionListener(new insertAction());
 
 		viewBlocks = new Button("View");
-		viewBlocks.setBounds(113, 110, 60, 30);
+		viewBlocks.setBounds(113, 110, 60, 25);
 		viewBlocks.addActionListener(new viewBlockchain());
+
+		addBlock.setBackground(Color.WHITE);
+   	    addBlock.setForeground(Color.BLACK);
+
+		viewBlocks.setBackground(Color.WHITE);
+		viewBlocks.setForeground(Color.BLACK);
 
 		statusBox = new TextArea("");
 		statusBox.setBounds(350, 30, 800, 300);
