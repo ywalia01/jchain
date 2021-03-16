@@ -188,7 +188,7 @@ class jchain {
 						statusBox.append("\n      " + "'data': " + "'" + blockchain.get(i).getData() + "',");
 						statusBox.append("\n      " + "'timeStamp': " + blockchain.get(i).getTimeStamp() + ",");
 						statusBox.append("\n      " + "'nonce': " + blockchain.get(i).getNonce());
-						statusBox.append("\n    }");
+						statusBox.append("\n    },");
 					}
 					statusBox.append("\n]");
 				}
