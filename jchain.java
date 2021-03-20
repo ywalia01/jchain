@@ -79,6 +79,7 @@ class jchain {
 	private static TextArea statusBox;
 	private static int temp1 = 40;
 	private static int temp2 = 40;
+	private static int temp3 = 40;
 
 	public static Boolean isChainValid() {
 		Block currentBlock;
@@ -149,11 +150,16 @@ class jchain {
 					statusBox.append("\nBlockchain is Valid: " + isChainValid());
 
 					JButton blockButton = new JButton(Integer.toString(counter + 1));
-					if(temp1 <=260 )
-					blockButton.setBounds(temp1, 350, 50, 50);
-					else{
-					blockButton.setBounds(temp2, 450, 50, 50);
-					temp2 += 55;
+
+					if (temp1 <= 300) {
+						blockButton.setBounds(temp1, 388, 50, 50);
+						temp1 += 60;
+					} else if (temp1 > 300 && temp2 < 960) {
+						blockButton.setBounds(temp2, 450, 50, 50);
+						temp2 += 60;
+					} else {
+						blockButton.setBounds(temp3, 510, 50, 50);
+						temp3 += 60;
 					}
 
 					blockButton.setForeground(Color.RED);
@@ -176,7 +182,6 @@ class jchain {
 							statusBox.append("\n    }");
 						}
 					});
-					temp1 += 55;
 					counter += 1;
 				}
 			}
@@ -209,27 +214,24 @@ class jchain {
 	public static void main(String[] args) {
 		frame = new JFrame("JChain");
 		JLabel label;
-		label = new JLabel("Welcome to JChain: A Blockchain Simulation...");
-		label.setBounds(40,50,1000,100);
+		label = new JLabel("Welcome to JChain: A Blockchain Simulation");
+		label.setBounds(40, 50, 1000, 100);
 		label.setFont(new Font("Verdana", Font.BOLD, 37));
+		// label.setForeground(Color.RED);
 		tf1 = new TextField("Enter Data");
-		//tf1.setBounds(40, 70, 280, 30);
 		tf1.setBounds(40, 180, 280, 30);
 		tf1.addMouseListener(new insertMouseAction());
 
 		addBlock = new Button("Create");
-		//addBlock.setBounds(33, 110, 70, 30);
 		addBlock.setBounds(33, 220, 70, 30);
 		addBlock.addActionListener(new insertAction());
 
 		viewBlocks = new Button("View");
-		//viewBlocks.setBounds(113, 110, 60, 30);
 		viewBlocks.setBounds(113, 220, 60, 30);
 		viewBlocks.addActionListener(new viewBlockchain());
 
 		statusBox = new TextArea("");
-		//statusBox.setBounds(350, 65, 650, 260);
-		statusBox.setBounds(350, 175, 650, 260);
+		statusBox.setBounds(343, 175, 650, 260);
 		statusBox.setEditable(false);
 		statusBox.setText("YOUR BLOCKCHAIN WILL BE DISPLAYED HERE");
 
