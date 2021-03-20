@@ -184,14 +184,7 @@ class jchain {
 					});
 					counter += 1;
 				}
-			}
-			tf1.setText("Enter Data");
-		}
-	}
-
-	public static class viewBlockchain implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == viewBlocks) {
+			} else if (e.getSource() == viewBlocks) {
 				if (blockchain.isEmpty() == true) {
 					statusBox.setText("Blockchain empty!");
 				} else {
@@ -208,6 +201,7 @@ class jchain {
 					statusBox.append("\n]");
 				}
 			}
+			tf1.setText("Enter Data");
 		}
 	}
 
@@ -228,7 +222,7 @@ class jchain {
 
 		viewBlocks = new JButton("View");
 		viewBlocks.setBounds(113, 220, 60, 30);
-		viewBlocks.addActionListener(new viewBlockchain());
+		viewBlocks.addActionListener(new insertAction());
 
 		statusBox = new TextArea("");
 		statusBox.setBounds(343, 175, 650, 260);
