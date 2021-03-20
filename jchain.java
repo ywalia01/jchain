@@ -74,8 +74,8 @@ class jchain {
 	private static int difficulty = 4;
 	private static JFrame frame;
 	private static TextField tf1;
-	private static Button addBlock;
-	private static Button viewBlocks;
+	private static JButton addBlock;
+	private static JButton viewBlocks;
 	private static TextArea statusBox;
 	private static int temp1 = 40;
 	private static int temp2 = 40;
@@ -222,11 +222,11 @@ class jchain {
 		tf1.setBounds(40, 180, 280, 30);
 		tf1.addMouseListener(new insertMouseAction());
 
-		addBlock = new Button("Create");
+		addBlock = new JButton("Create");
 		addBlock.setBounds(33, 220, 70, 30);
 		addBlock.addActionListener(new insertAction());
 
-		viewBlocks = new Button("View");
+		viewBlocks = new JButton("View");
 		viewBlocks.setBounds(113, 220, 60, 30);
 		viewBlocks.addActionListener(new viewBlockchain());
 
